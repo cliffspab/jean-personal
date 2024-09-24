@@ -12,20 +12,18 @@
 
 <body>
     <main>
-        <h1>Search</h1>
+        <h1 class="visually-hidden">Search</h1>
         <form>
-            <input
-                aria-label="custom search engine query"
-                autocapitalize="off"
-                autocomplete="off"
-                autocorrect="off"
-                autofocus
-                spellcheck="false"
-                type="text"
-            >
+            <input aria-label="custom search engine query" autocapitalize="off" autocomplete="off" autocorrect="off"
+                autofocus spellcheck="false" type="text" placeholder="Search <engine> [query]">
             <button>Go</button>
         </form>
         <table>
+            <colgroup>
+                <col />
+                <col style="width: 8em" />
+                <col style="width: 5em" />
+            </colgroup>
             <thead>
                 <th>Label</th>
                 <th>Shortcut</th>

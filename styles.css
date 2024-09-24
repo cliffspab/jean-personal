@@ -1,45 +1,70 @@
+:root {
+  color-scheme: light dark;
+  --dark: hsl(220, 5%, 10%);
+  --light: hsl(220, 5%, 94%);
+  --off-dark: hsl(220, 5%, 20%);
+  --off-light: hsl(220, 5%, 84%);
+  --readable-dark: hsl(220, 5%, 40%);
+  --readable-light: hsl(220, 5%, 64%);
+
+  --background: light-dark(var(--light), var(--dark));
+  --off-background: light-dark(var(--off-light), var(--off-dark));
+  --text: light-dark(var(--dark), var(--light));
+  --faint-text: light-dark(var(--readable-dark), var(--readable-light));
+}
+
+.visually-hidden {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 body {
+  background-color: var(--background);
+  color: var(--text);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   line-height: 1.5;
-}
-
-h1 {
-  font-size: 1.5rem;
-  margin: 1rem 0;
-  text-align: center;
+  margin: 1rem;
 }
 
 main {
   margin-inline: auto;
-  max-width: 40rem;
+  max-width: 50rem;
 }
 
 form {
+  --_border-radius: 0.9rem;
   display: flex;
 }
 
 form input {
-  flex: 1;
-  border-bottom-left-radius: 1rem;
-  border-top-left-radius: 1rem;
+  background-color: transparent;
+  border-bottom-left-radius: var(--_border-radius);
+  border-top-left-radius: var(--_border-radius);
   border-right: none;
+  flex: 1;
 }
 
 form input::placeholder {
-  color: #c9c9c9;
+  color: var(--faint-text);
 }
 
 form button {
-  border-bottom-right-radius: 1rem;
-  border-top-right-radius: 1rem;
+  background-color: var(--off-background);
+  border-bottom-right-radius: var(--_border-radius);
+  border-top-right-radius: var(--_border-radius);
 }
 
-:where(button, input) {
-  border: 1px solid #ddd;
+button,
+input {
+  border: 1px solid var(--off-background);
   font: inherit;
   color: inherit;
-  padding: 4px 12px;
+  padding: 0.5em 2em;
 }
 
 table {
@@ -49,8 +74,14 @@ table {
   width: 100%;
 }
 
-:where(td, th) {
-  padding: 4px;
+thead {
+  letter-spacing: 0.05ch;
+  text-transform: uppercase;
+}
+
+td,
+th {
+  padding: 0.125em 0.25em;
   text-align: center;
 }
 
@@ -59,11 +90,17 @@ tbody tr:not(:where(:hover, .highlight)) {
 }
 
 tbody tr:nth-child(odd) {
-  background-color: #f1f1f1;
+  background-color: hsla(220, 5%, 94%, 0.25);
 }
 
 :where(td, th):first-of-type {
   text-align: left;
+}
+
+td:last-of-type {
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 
 p {
