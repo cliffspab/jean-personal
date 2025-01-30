@@ -3,7 +3,7 @@
  * LABEL,SHORTCUT,URL (with %s for search term)
  */
 window.engines = `
-Google. https://cliffspab.github.io/jean-personal/?q=,g,https://www.google.com/search?q=%s
+Google,%s,https://www.google.com/search?q=$1
 Cracked,zz,https://cse.google.com/cse?cx=f8a43638082e49c2d#gsc.tab=0&gsc.q=%s&gsc.sort=
 GitHub,gh,https://google.com/search?q=site:github.com+%s
 Greasyfork,gf,https://google.com/search?q=site:greasyfork.org+%s
