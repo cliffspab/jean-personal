@@ -3,7 +3,7 @@
  * LABEL,SHORTCUT,URL (with %s for search term)
  */
 window.engines = `
-ddg,,https://duckduckgo.com/?t=h_&q=%s
+https://duckduckgo.com/?t=h_&q=%s
 Google,g,https://www.google.com/search?q=%s
 Cracked,zz,https://cse.google.com/cse?cx=f8a43638082e49c2d#gsc.tab=0&gsc.q=%s&gsc.sort=
 GitHub,gh,https://google.com/search?q=site:github.com+%s
