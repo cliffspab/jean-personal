@@ -20,7 +20,7 @@ faces,f,https://www.google.com/search?tbm=isch&q=%s&ref=%opensearch&imgtype=face
 youtube,yt,https://www.youtube.com/results?search_query=%s
 chromeextensions,e,https://www.google.com/search?q=site:chrome.google.com/webstore+%s
 edgeaddons,ea,https://www.google.com/search?q=site:microsoftedge.microsoft.com/addons/search+%s
-porn,a,https://www.google.com/search?q=site:pornhub.com%20OR%20site:xvideos.com%20OR%20site:4kporn.xxx%20OR%20site:sxyprn.com%20OR%20site:videosection.com%20OR%20site:spankbang.com%20OR%20site:bigporn.com%20OR%20site:xfantazy.com%20OR%20site:camflow.tv%20OR%20site:pornkai.com%20OR%20site:cambro.tv%20OR%20site:redtube.com%20OR%20site:txxx.com%20OR%20site:motherless.com+%s+anal+-ladyboy+-shemale+-gay
+porn,a,https://www.google.com/search?hl=en&safe=off&num=50&pws=0&q=porn+anal+site%3Apornhub.com+OR+site%3Axvideos.com+OR+site%3A4kporn.xxx+OR+site%3Asxyprn.com+OR+site%3Avideosection.com+OR+site%3Aspankbang.com+OR+site%3Abigporn.com+OR+site%3Axfantazy.com+OR+site%3Acamflow.tv+OR+site%3Apornkai.com+OR+site%3Acambro.tv+OR+site%3Aredtube.com+OR+site%3Atxxx.com+OR+site%3Amotherless.com+-ladyboy+-shemale+-gay&gl=us&udm=2&sxsrf=AE3TifOQhhcaJB67zXwM5kK8Qp7pTat9oQ%3A1750940957162
 porn2,p,http://google.com/search?q=%s+anal+site:pornhub.com%20OR%20site:xvideos.com%20OR%20site:4kporn.xxx%20OR%20site:sxyprn.com%20OR%20site:videosection.com%20OR%20site:spankbang.com%20OR%20site:bigporn.com%20OR%20site:xfantazy.com%20OR%20site:camflow.tv%20OR%20site:pornkai.com%20OR%20site:cambro.tv%20OR%20site:redtube.com%20OR%20site:txxx.com%20OR%20site:motherless.com+%s+-ladyboy+-shemale+-gay
 cloudsearch,c,https://cloudsearch.google.com/cloudsearch/search?authuser=0&q=%s&it=1609926023312&iq=false
 `;
