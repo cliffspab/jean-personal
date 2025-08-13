@@ -19,6 +19,8 @@ softpedia,s,https://www.google.com/search?q=site:softpedia.com+%s
 faces,f,https://www.google.com/search?tbm=isch&q=%s&ref=%opensearch&imgtype=face
 youtube,yt,https://www.youtube.com/results?search_query=%s
 chromeextensions,e,https://www.google.com/search?q=site:chrome.google.com/webstore+%s
+G2A,g2a,https://www.g2a.com/search?query=%s
+porna2,a2,https://www.google.com/search?hl=en&gl=us&safe=off&num=50&pws=0&udm=2&q=%s +porn|fuck|video|hd +-ladyboy+-shemale+-gay++intext:ass+intext:butt+intext:x+intext:anal
 edgeaddons,ea,https://www.google.com/search?q=site:microsoftedge.microsoft.com/addons/search+%s
 porn,a,https://www.google.com/search?hl=en&safe=off&num=50&pws=0&udm=2&q=%s%20site:pornhub.com%20OR%20site:xvideos.com%20OR%20site:4kporn.xxx%20OR%20site:eporner.com%20OR%20site:sxyprn.com%20OR%20site:thethothub.com%20OR%20site:videosection.com%20OR%20site:spankbang.com%20OR%20site:bigporn.com%20OR%20site:xfantazy.com%20OR%20site:camflow.tv%20OR%20site:pornkai.com%20OR%20site:cambro.tv%20OR%20site:redtube.com%20OR%20site:txxx.com%20OR%20site:motherless.com+anal%20+-ladyboy+-shemale+-gay
 porn2,p,http://google.com/search?q=%s+anal+site:pornhub.com%20OR%20site:xvideos.com%20OR%20site:4kporn.xxx%20OR%20site:sxyprn.com%20OR%20site:videosection.com%20OR%20site:spankbang.com%20OR%20site:bigporn.com%20OR%20site:xfantazy.com%20OR%20site:camflow.tv%20OR%20site:pornkai.com%20OR%20site:cambro.tv%20OR%20site:redtube.com%20OR%20site:txxx.com%20OR%20site:motherless.com+%s+-ladyboy+-shemale+-gay
