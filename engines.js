@@ -18,7 +18,7 @@ Malwaretips,mal,https://www.google.com/search?q=site:malwaretips.com+%s
 softpedia,s,https://www.google.com/search?q=site:softpedia.com+%s
 faces,f,https://www.google.com/search?tbm=isch&q=%s&ref=%opensearch&imgtype=face
 youtube,yt,https://www.youtube.com/results?search_query=%s
-chromeextensions,e,https://www.google.com/search?q=site:chrome.google.com/webstore+%s
+chromeextensions,e,https://www.google.com/search?q=site:chromewebstore.google.com+%s
 G2A,g2a,https://www.g2a.com/search?query=%s
 porna2,a2,https://www.google.com/search?hl=en&gl=us&safe=off&num=50&pws=0&udm=2&q=%s +porn|fuck|video|hd +-ladyboy+-shemale+-gay++intext:ass+intext:butt+intext:x+intext:anal
 edgeaddons,ea,https://www.google.com/search?q=site:microsoftedge.microsoft.com/addons/search+%s
