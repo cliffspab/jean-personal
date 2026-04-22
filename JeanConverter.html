@@ -2,172 +2,63 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>fuzzylogic terminal</title>
+    <title>Jean to Chrome Injector</title>
     <style>
-        :root {
-            --bg: #0d0d0d;
-            --text: #00ff41; /* Matrix/Terminal Green */
-            --dim: #333333;
-        }
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Courier New', Courier, monospace;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            overflow: hidden;
-        }
-        .container {
-            width: 100%;
-            max-width: 600px;
-            text-align: center;
-        }
-        h1 {
-            font-size: 2.5rem;
-            font-weight: normal;
-            margin-bottom: 2rem;
-            letter-spacing: 2px;
-        }
-        h1 span {
-            opacity: 0.4;
-        }
-        input {
-            width: 100%;
-            background: transparent;
-            border: none;
-            border-bottom: 2px solid var(--dim);
-            color: var(--text);
-            font-size: 1.5rem;
-            font-family: inherit;
-            padding: 10px 0;
-            text-align: center;
-            outline: none;
-            transition: border-color 0.3s ease;
-        }
-        input:focus {
-            border-bottom: 2px solid var(--text);
-        }
-        .tools {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            opacity: 0.2;
-            transition: opacity 0.3s;
-        }
-        .tools:hover {
-            opacity: 1;
-        }
-        .tools a {
-            color: var(--text);
-            text-decoration: none;
-            font-size: 1.2rem;
-        }
+        body { font-family: sans-serif; padding: 20px; background: #1e1e1e; color: #fff; }
+        textarea { width: 100%; padding: 10px; background: #2d2d2d; color: #00ff00; border: 1px solid #555; font-family: monospace; border-radius: 5px; }
+        button { margin: 15px 0; padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #0056b3; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>fuzzy<span>logic</span></h1>
-        <input type="text" id="cmd" autocomplete="off" spellcheck="false" autofocus placeholder="waiting for command...">
-    </div>
+    <h2>1. Paste Raw Jean Data</h2>
+    <p>Paste your comma-separated Jean list (Label,shortcut,URL) below:</p>
+    <textarea id="jeanInput" rows="10" placeholder="Example,e,https://google.com/search?q=%s"></textarea>
 
-    <div class="tools">
-        <a href="JeanConverter.html" title="Open Converter">[🔧]</a>
-    </div>
+    <button onclick="convert()">Generate Chrome Injection Script</button>
+
+    <h2>2. Copy Your Console Script</h2>
+    <textarea id="consoleOutput" rows="15" placeholder="Your ES5 Chrome injection script will appear here..."></textarea>
 
     <script>
-        // 1. PASTE YOUR JEAN CSV HERE
-        // Format: Label,shortcut,URL
-        const rawJean = `
-Goog,g,https://google.com/search?hl=en&safe=off&num=50&pws=0&q=%s&oq=test&sourceid=chrome&{google:prefetchSource}ie={inputEncoding}
-Cracked,zz,https://cse.google.com/cse?cx=f8a43638082e49c2d#gsc.tab=0&gsc.q=%s&ie=UTF-8&gsc.sort=
-GitHub,gh,https://google.com/search?hl=en&safe=off&num=50&pws=0&q=site:github.com+%s&ie=UTF-8
-Greasyfork,gf,https://google.com/search?hl=en&safe=off&num=50&pws=0&q=site:greasyfork.org+%s&ie=UTF-8
-Reddit,r,https://google.com/search?hl=en&safe=off&num=50&pws=0&q=site:reddit.com+%s&ie=UTF-8
-PlayStore,pl,https://play.google.com/store/search?q=%s&ie=UTF-8
-brave,b,https://search.brave.com/search?q=%s&ie=UTF-8
-facebook,fb,https://www.facebook.com/search/top/?q=%s&ie=UTF-8&opensearch=1
-firefox-addons,fa,https://addons.mozilla.org/en-US/firefox/search/?q=%s&ie=UTF-8
-BangkokPost,bkp,https://www.google.com/search?hl=en&safe=off&num=50&pws=0&q=site:bangkokpost.com+%s&ie=UTF-8
-Chocolatey,choco,https://www.google.com/search?hl=en&safe=off&num=50&pws=0&q=site:chocolatey.org/packages+%s&ie=UTF-8
-Malwaretips,mal,https://www.google.com/search?hl=en&safe=off&num=50&pws=0&q=site:malwaretips.com+%s&ie=UTF-8
-softpedia,s,https://www.google.com/search?hl=en&safe=off&num=50&pws=0&q=site:softpedia.com+%s&ie=UTF-8
-faces,f,https://www.google.com/search?tbm=isch&q=%s&ie=UTF-8&ref=%opensearch&imgtype=face
-youtube,yt,https://www.youtube.com/results?search_query=%s&ie=UTF-8
-chromeextensions,e,https://www.google.com/search?gl=us&hl=en&safe=off&num=50&pws=0&q=site:chromewebstore.google.com+%s&ie=UTF-8
-G2A,g2a,https://www.g2a.com/search?query=%s&ie=UTF-8
-porn2,a2,https://www.google.com/search?hl=en&gl=us&safe=off&num=50&pws=0&udm=2&q=%s +porn|fuck|video|hd +-ladyboy+-shemale+-gay++intext:ass+intext:butt+intext:x+intext:anal
-edgeaddons,ea,https://www.google.com/search?hl=en&safe=off&num=50&pws=0&q=site:microsoftedge.microsoft.com/addons/search+%s&ie=UTF-8
-porn,a,https://www.google.com/search?hl=en&safe=off&num=50&pws=0&udm=2&q=%s&ie=UTF-8%20site:pornhub.com%20OR%20site:xvideos.com%20OR%20site:4kporn.xxx%20OR%20site:eporner.com%20OR%20site:sxyprn.com%20OR%20site:thethothub.com%20OR%20site:videosection.com%20OR%20site:spankbang.com%20OR%20site:bigporn.com%20OR%20site:xfantazy.com%20OR%20site:camflow.tv%20OR%20site:pornkai.com%20OR%20site:cambro.tv%20OR%20site:redtube.com%20OR%20site:txxx.com%20OR%20site:motherless.com+anal%20+-ladyboy+-shemale+-gay
-porn-old,p,https://google.com/search?hl=en&safe=off&num=50&pws=0&q=%s&ie=UTF-8+anal+site:pornhub.com%20OR%20site:xvideos.com%20OR%20site:4kporn.xxx%20OR%20site:sxyprn.com%20OR%20site:videosection.com%20OR%20site:spankbang.com%20OR%20site:bigporn.com%20OR%20site:xfantazy.com%20OR%20site:camflow.tv%20OR%20site:pornkai.com%20OR%20site:cambro.tv%20OR%20site:redtube.com%20OR%20site:txxx.com%20OR%20site:motherless.com+%s&ie=UTF-8+-ladyboy+-shemale+-gay
-cloudsearch,c,https://cloudsearch.google.com/cloudsearch/search?authuser=0&q=%s&ie=UTF-8&it=1609926023312&iq=false
-Wikipedia,w,https://en.wikipedia.org/wiki/Special:Search?search=%s
-        `;
+        function convert() {
+            const raw = document.getElementById('jeanInput').value;
+            const lines = raw.split('\n');
+            let jsArray = [];
 
-        // 2. PARSE THE CSV INTO A DICTIONARY
-        const engines = {};
-        rawJean.split('\n').forEach(line => {
-            const parts = line.trim().split(',');
-            if (parts.length >= 3) {
-                engines[parts[1].trim()] = parts.slice(2).join(',').trim();
-            }
-        });
+            for (let line of lines) {
+                line = line.trim();
+                // Skip empty lines or comments
+                if (!line || line.startsWith('//') || line.startsWith('/*') || line.startsWith('*') || line.startsWith('window.engines')) continue;
 
-    // The default fallback if you just type a normal sentence
-const defaultEngine = "https://google.com/search?hl=en&safe=off&num=50&pws=0&q=%s";
+                // Parse the CSV: Find the first two commas to separate Name, Shortcut, and URL
+                const firstComma = line.indexOf(',');
+                const secondComma = line.indexOf(',', firstComma + 1);
 
-        // 3. THE DISPATCHER BEHAVIOUR
-        function executeCommand(query) {
-            if (!query) return;
-            
-            query = query.trim();
-            const spaceIndex = query.indexOf(' ');
-            
-            let shortcut = query;
-            let searchTerm = "";
+                if (firstComma > -1 && secondComma > -1) {
+                    const name = line.substring(0, firstComma).trim();
+                    const shortcut = line.substring(firstComma + 1, secondComma).trim();
+                    let url = line.substring(secondComma + 1).trim();
 
-            if (spaceIndex > -1) {
-                shortcut = query.substring(0, spaceIndex).trim();
-                searchTerm = query.substring(spaceIndex + 1).trim();
-            }
+                    // AUTOMATED CLEANUP
+                    // 1. Convert '+' to '%20' to prevent Chrome validation errors
+                    url = url.replace(/\+/g, '%20');
+                    // 2. Strip 'www.' from Google URLs to bypass deduplication filters
+                    url = url.replace('https://www.google.com/search', 'https://google.com/search');
+                    // 3. Ensure '`' or '"' characters inside the URL don't break the array
+                    url = url.replace(/"/g, '\\"');
 
-            let targetUrl = engines[shortcut];
-
-            if (targetUrl) {
-                if (searchTerm) {
-                    // Execute the search
-                    window.location.href = targetUrl.replace('%s', encodeURIComponent(searchTerm));
-                } else {
-                    // If you just type 'r' with no search, go to the Reddit homepage (or relevant root)
-                    window.location.href = targetUrl.split('?')[0].split('/search')[0]; 
+                    jsArray.push(`  ["${name}", "${shortcut}", "${url}"]`);
                 }
-            } else {
-                // If it isn't a recognised shortcut, just treat it as a standard Google search
-                window.location.href = defaultEngine.replace('%s', encodeURIComponent(query));
             }
-        }
 
-        // 4. CHECK HOW THE PAGE WAS LOADED
-        const urlParams = new URLSearchParams(window.location.search);
-        
-        if (urlParams.has('q')) {
-            // MODE A: Loaded via Chrome Omnibox dispatcher. Hide the UI and execute instantly.
-            document.body.style.display = 'none'; 
-            executeCommand(urlParams.get('q'));
-        } else {
-            // MODE B: Loaded directly as a startpage. Listen for the Enter key.
-            document.getElementById('cmd').addEventListener('keypress', function (e) {
-                if (e.key === 'Enter') {
-                    executeCommand(this.value);
-                }
-            });
+            // Construct the final ES5 paced injection payload
+            const finalScript = `var ce = [\n${jsArray.join(',\n')}\n];\n\nfunction runInject(index) {\n    if (index >= ce.length) {\n        console.log("Done! Refresh the settings page to verify.");\n        return;\n    }\n    chrome.send('searchEngineEditStarted', [-1]);\n    setTimeout(function() {\n        chrome.send('searchEngineEditCompleted', ce[index]);\n        console.log("Added: " + ce[index][0]);\n        setTimeout(function() {\n            runInject(index + 1);\n        }, 200);\n    }, 200);\n}\n\nrunInject(0);`;
+
+            document.getElementById('consoleOutput').value = finalScript;
         }
     </script>
+
 </body>
 </html>
