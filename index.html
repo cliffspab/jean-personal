@@ -82,15 +82,34 @@
     </div>
 
     <script>
-        // 1. PASTE YOUR JEAN CSV HERE
-        // Format: Label,shortcut,URL
+        // 1. DATA SOURCE
         const rawJean = `
-Reddit,r,https://www.reddit.com/search/?q=%s
-YouTube,yt,https://www.youtube.com/results?search_query=%s
+Goog,g,https://google.com/search?hl=en&safe=off&num=50&pws=0&q=%s&oq=test&sourceid=chrome&ie=UTF-8
+Cracked,zz,https://cse.google.com/cse?cx=f8a43638082e49c2d#gsc.tab=0&gsc.q=%s&ie=UTF-8&gsc.sort=
+GitHub,gh,https://google.com/search?hl=en&safe=off&num=50&pws=0&q=site:github.com+%s&ie=UTF-8
+Greasyfork,gf,https://google.com/search?hl=en&safe=off&num=50&pws=0&q=site:greasyfork.org+%s&ie=UTF-8
+Reddit,r,https://google.com/search?hl=en&safe=off&num=50&pws=0&q=site:reddit.com+%s&ie=UTF-8
+PlayStore,pl,https://play.google.com/store/search?q=%s&ie=UTF-8
+brave,b,https://search.brave.com/search?q=%s&ie=UTF-8
+facebook,fb,https://www.facebook.com/search/top/?q=%s&ie=UTF-8&opensearch=1
+firefox-addons,fa,https://addons.mozilla.org/en-US/firefox/search/?q=%s&ie=UTF-8
+BangkokPost,bkp,https://www.google.com/search?hl=en&safe=off&num=50&pws=0&q=site:bangkokpost.com+%s&ie=UTF-8
+Chocolatey,choco,https://www.google.com/search?hl=en&safe=off&num=50&pws=0&q=site:chocolatey.org/packages+%s&ie=UTF-8
+Malwaretips,mal,https://www.google.com/search?hl=en&safe=off&num=50&pws=0&q=site:malwaretips.com+%s&ie=UTF-8
+softpedia,s,https://www.google.com/search?hl=en&safe=off&num=50&pws=0&q=site:softpedia.com+%s&ie=UTF-8
+faces,f,https://www.google.com/search?tbm=isch&q=%s&ie=UTF-8&ref=%opensearch&imgtype=face
+youtube,yt,https://www.youtube.com/results?search_query=%s&ie=UTF-8
+chromeextensions,e,https://www.google.com/search?gl=us&hl=en&safe=off&num=50&pws=0&q=site:chromewebstore.google.com+%s&ie=UTF-8
+G2A,g2a,https://www.g2a.com/search?query=%s&ie=UTF-8
+porn2,a2,https://www.google.com/search?hl=en&gl=us&safe=off&num=50&pws=0&udm=2&q=%s +porn|fuck|video|hd +-ladyboy+-shemale+-gay++intext:ass+intext:butt+intext:x+intext:anal
+edgeaddons,ea,https://www.google.com/search?hl=en&safe=off&num=50&pws=0&q=site:microsoftedge.microsoft.com/addons/search+%s&ie=UTF-8
+porn,a,https://www.google.com/search?hl=en&safe=off&num=50&pws=0&udm=2&q=%s&ie=UTF-8%20site:pornhub.com%20OR%20site:xvideos.com%20OR%20site:4kporn.xxx%20OR%20site:eporner.com%20OR%20site:sxyprn.com%20OR%20site:thethothub.com%20OR%20site:videosection.com%20OR%20site:spankbang.com%20OR%20site:bigporn.com%20OR%20site:xfantazy.com%20OR%20site:camflow.tv%20OR%20site:pornkai.com%20OR%20site:cambro.tv%20OR%20site:redtube.com%20OR%20site:txxx.com%20OR%20site:motherless.com+anal%20+-ladyboy+-shemale+-gay
+porn-old,p,https://google.com/search?hl=en&safe=off&num=50&pws=0&q=%s&ie=UTF-8+anal+site:pornhub.com%20OR%20site:xvideos.com%20OR%20site:4kporn.xxx%20OR%20site:sxyprn.com%20OR%20site:videosection.com%20OR%20site:spankbang.com%20OR%20site:bigporn.com%20OR%20site:xfantazy.com%20OR%20site:camflow.tv%20OR%20site:pornkai.com%20OR%20site:cambro.tv%20OR%20site:redtube.com%20OR%20site:txxx.com%20OR%20site:motherless.com+%s&ie=UTF-8+-ladyboy+-shemale+-gay
+cloudsearch,c,https://cloudsearch.google.com/cloudsearch/search?authuser=0&q=%s&ie=UTF-8&it=1609926023312&iq=false
 Wikipedia,w,https://en.wikipedia.org/wiki/Special:Search?search=%s
         `;
 
-        // 2. PARSE THE CSV INTO A DICTIONARY
+        // 2. PARSE THE CSV
         const engines = {};
         rawJean.split('\n').forEach(line => {
             const parts = line.trim().split(',');
@@ -99,13 +118,11 @@ Wikipedia,w,https://en.wikipedia.org/wiki/Special:Search?search=%s
             }
         });
 
-        // The default fallback if you just type a normal sentence
-        const defaultEngine = "https://google.com/search?q=%s";
+        const defaultEngine = "https://google.com/search?hl=en&safe=off&num=50&pws=0&q=%s";
 
-        // 3. THE DISPATCHER BEHAVIOUR
+        // 3. DISPATCHER LOGIC
         function executeCommand(query) {
             if (!query) return;
-            
             query = query.trim();
             const spaceIndex = query.indexOf(' ');
             
@@ -121,27 +138,22 @@ Wikipedia,w,https://en.wikipedia.org/wiki/Special:Search?search=%s
 
             if (targetUrl) {
                 if (searchTerm) {
-                    // Execute the search
                     window.location.href = targetUrl.replace('%s', encodeURIComponent(searchTerm));
                 } else {
-                    // If you just type 'r' with no search, go to the Reddit homepage
                     window.location.href = targetUrl.split('?')[0].split('/search')[0]; 
                 }
             } else {
-                // If it isn't a recognised shortcut, just treat it as a standard Google search
                 window.location.href = defaultEngine.replace('%s', encodeURIComponent(query));
             }
         }
 
-        // 4. CHECK HOW THE PAGE WAS LOADED
+        // 4. EXECUTION
         const urlParams = new URLSearchParams(window.location.search);
-        
+
         if (urlParams.has('q')) {
-            // MODE A: Loaded via Chrome Omnibox dispatcher. Hide the UI and execute instantly.
             document.body.style.display = 'none'; 
             executeCommand(urlParams.get('q'));
         } else {
-            // MODE B: Loaded directly as a startpage. Listen for the Enter key.
             document.getElementById('cmd').addEventListener('keypress', function (e) {
                 if (e.key === 'Enter') {
                     executeCommand(this.value);
