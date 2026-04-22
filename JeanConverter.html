@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jean to Chrome Injector</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #1e1e1e; color: #fff; }
+        textarea { width: 100%; padding: 10px; background: #2d2d2d; color: #00ff00; border: 1px solid #555; font-family: monospace; border-radius: 5px; }
+        button { margin: 15px 0; padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+
+    <h2>1. Paste Raw Jean Data</h2>
+    <p>Paste your comma-separated Jean list (Label,shortcut,URL) below:</p>
+    <textarea id="jeanInput" rows="10" placeholder="Example,e,https://google.com/search?q=%s"></textarea>
+
+    <button onclick="convert()">Generate Chrome Injection Script</button>
+
+    <h2>2. Copy Your Console Script</h2>
+    <textarea id="consoleOutput" rows="15" placeholder="Your ES5 Chrome injection script will appear here..."></textarea>
+
+    <script>
+        function convert() {
+            const raw = document.getElementById('jeanInput').value;
+            const lines = raw.split('\n');
+            let jsArray = [];
+
+            for (let line of lines) {
+                line = line.trim();
+                // Skip empty lines or comments
+                if (!line || line.startsWith('//') || line.startsWith('/*') || line.startsWith('*') || line.startsWith('window.engines')) continue;
+
+                // Parse the CSV: Find the first two commas to separate Name, Shortcut, and URL
+                const firstComma = line.indexOf(',');
+                const secondComma = line.indexOf(',', firstComma + 1);
+
+                if (firstComma > -1 && secondComma > -1) {
+                    const name = line.substring(0, firstComma).trim();
+                    const shortcut = line.substring(firstComma + 1, secondComma).trim();
+                    let url = line.substring(secondComma + 1).trim();
+
+                    // AUTOMATED CLEANUP
+                    // 1. Convert '+' to '%20' to prevent Chrome validation errors
+                    url = url.replace(/\+/g, '%20');
+                    // 2. Strip 'www.' from Google URLs to bypass deduplication filters
+                    url = url.replace('https://www.google.com/search', 'https://google.com/search');
+                    // 3. Ensure '`' or '"' characters inside the URL don't break the array
+                    url = url.replace(/"/g, '\\"');
+
+                    jsArray.push(`  ["${name}", "${shortcut}", "${url}"]`);
+                }
+            }
+
+            // Construct the final ES5 paced injection payload
+            const finalScript = `var ce = [\n${jsArray.join(',\n')}\n];\n\nfunction runInject(index) {\n    if (index >= ce.length) {\n        console.log("Done! Refresh the settings page to verify.");\n        return;\n    }\n    chrome.send('searchEngineEditStarted', [-1]);\n    setTimeout(function() {\n        chrome.send('searchEngineEditCompleted', ce[index]);\n        console.log("Added: " + ce[index][0]);\n        setTimeout(function() {\n            runInject(index + 1);\n        }, 200);\n    }, 200);\n}\n\nrunInject(0);`;
+
+            document.getElementById('consoleOutput').value = finalScript;
+        }
+    </script>
+
+</body>
+</html>

@@ -1,42 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jean - Your personal custom search engine</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" type="image/png" href="mag.png">
+    <title>fuzzylogic terminal</title>
+    <style>
+        :root {
+            --bg: #0d0d0d;
+            --text: #00ff41; /* Matrix/Terminal Green */
+            --dim: #333333;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: normal;
+            margin-bottom: 2rem;
+            letter-spacing: 2px;
+        }
+        h1 span {
+            opacity: 0.4;
+        }
+        input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--dim);
+            color: var(--text);
+            font-size: 1.5rem;
+            font-family: inherit;
+            padding: 10px 0;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        input:focus {
+            border-bottom: 2px solid var(--text);
+        }
+        .tools {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            opacity: 0.2;
+            transition: opacity 0.3s;
+        }
+        .tools:hover {
+            opacity: 1;
+        }
+        .tools a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+    </style>
 </head>
-
 <body>
-    <main>
-        <h1 class="visually-hidden">Search</h1>
-        <form>
-            <input aria-label="custom search engine query" autocapitalize="off" autocomplete="off" autocorrect="off"
-                autofocus spellcheck="false" type="text" placeholder="Search <engine> [query]">
-            <button>Go</button>
-        </form>
-        <table>
-            <colgroup>
-                <col />
-                <col style="width: 8em" />
-                <col style="width: 5em" />
-            </colgroup>
-            <thead>
-                <th>Label</th>
-                <th>Shortcut</th>
-                <th>Query</th>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-        <p><a href="engines.js">View engine data</a></p>
-    </main>
-    <script src="engines.js"></script>
-    <script src="main.js"></script>
-    <!-- Made by Sean McPherson – https://seanmcp.com -->
-</body>
 
+    <div class="container">
+        <h1>fuzzy<span>logic</span></h1>
+        <input type="text" id="cmd" autocomplete="off" spellcheck="false" autofocus placeholder="waiting for command...">
+    </div>
+
+    <div class="tools">
+        <a href="JeanConverter.html" title="Open Converter">[🔧]</a>
+    </div>
+
+    <script>
+        // 1. PASTE YOUR JEAN CSV HERE
+        // Format: Label,shortcut,URL
+        const rawJean = `
+Reddit,r,https://www.reddit.com/search/?q=%s
+YouTube,yt,https://www.youtube.com/results?search_query=%s
+Wikipedia,w,https://en.wikipedia.org/wiki/Special:Search?search=%s
+        `;
+
+        // 2. PARSE THE CSV INTO A DICTIONARY
+        const engines = {};
+        rawJean.split('\n').forEach(line => {
+            const parts = line.trim().split(',');
+            if (parts.length >= 3) {
+                engines[parts[1].trim()] = parts.slice(2).join(',').trim();
+            }
+        });
+
+        // The default fallback if you just type a normal sentence
+        const defaultEngine = "https://google.com/search?q=%s";
+
+        // 3. THE DISPATCHER BEHAVIOUR
+        function executeCommand(query) {
+            if (!query) return;
+            
+            query = query.trim();
+            const spaceIndex = query.indexOf(' ');
+            
+            let shortcut = query;
+            let searchTerm = "";
+
+            if (spaceIndex > -1) {
+                shortcut = query.substring(0, spaceIndex).trim();
+                searchTerm = query.substring(spaceIndex + 1).trim();
+            }
+
+            let targetUrl = engines[shortcut];
+
+            if (targetUrl) {
+                if (searchTerm) {
+                    // Execute the search
+                    window.location.href = targetUrl.replace('%s', encodeURIComponent(searchTerm));
+                } else {
+                    // If you just type 'r' with no search, go to the Reddit homepage
+                    window.location.href = targetUrl.split('?')[0].split('/search')[0]; 
+                }
+            } else {
+                // If it isn't a recognised shortcut, just treat it as a standard Google search
+                window.location.href = defaultEngine.replace('%s', encodeURIComponent(query));
+            }
+        }
+
+        // 4. CHECK HOW THE PAGE WAS LOADED
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        if (urlParams.has('q')) {
+            // MODE A: Loaded via Chrome Omnibox dispatcher. Hide the UI and execute instantly.
+            document.body.style.display = 'none'; 
+            executeCommand(urlParams.get('q'));
+        } else {
+            // MODE B: Loaded directly as a startpage. Listen for the Enter key.
+            document.getElementById('cmd').addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    executeCommand(this.value);
+                }
+            });
+        }
+    </script>
+</body>
 </html>
