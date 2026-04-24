@@ -19,14 +19,18 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
+            justify-content: flex-start; 
+            padding-top: 25vh;
+            min-height: 100vh;
             overflow: hidden;
+            box-sizing: border-box;
         }
         .container {
             width: 100%;
             max-width: 600px;
             text-align: center;
+            padding: 0 20px;
+            box-sizing: border-box;
         }
         h1 {
             font-size: 2.5rem;
@@ -59,6 +63,8 @@
             right: 20px;
             opacity: 0.2;
             transition: opacity 0.3s;
+            display: flex;
+            gap: 10px; 
         }
         .tools:hover {
             opacity: 1;
@@ -78,6 +84,7 @@
     </div>
 
     <div class="tools">
+        <a href="https://github.com/cliffspab/jean-personal/edit/master/index.html" target="_blank" title="Edit on GitHub">[🐙]</a>
         <a href="JeanConverter.html" title="Open Converter">[🔧]</a>
     </div>
 
@@ -114,7 +121,7 @@ Wikipedia,w,https://en.wikipedia.org/wiki/Special:Search?search=%s
         rawJean.split('\n').forEach(line => {
             const parts = line.trim().split(',');
             if (parts.length >= 3) {
-                engines[parts[1].trim()] = parts.slice(2).join(',').trim();
+                engines[parts[1].trim().toLowerCase()] = parts.slice(2).join(',').trim();
             }
         });
 
@@ -134,7 +141,7 @@ Wikipedia,w,https://en.wikipedia.org/wiki/Special:Search?search=%s
                 searchTerm = query.substring(spaceIndex + 1).trim();
             }
 
-            let targetUrl = engines[shortcut];
+            let targetUrl = engines[shortcut.toLowerCase()];
 
             if (targetUrl) {
                 if (searchTerm) {
