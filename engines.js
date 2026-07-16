@@ -5,7 +5,7 @@
 
 // Core strict Google paths hidden in character-code sequences
 const _p1 = String.fromCharCode(104,116,116,112,115,58,47,47,119,119,119,46,103,111,111,103,108,101,46,99,111,109,47,115,101,97,114,99,104,63,113,61);
-const _p2 = String.fromCharCode(38,104,108,61,101,110,38,103,108,61,117,115,38,112,119,115,61,48,38,117,100,109,61,49,52,38,110,102,112,114,61,49,38,102,105,108,116,101,114,61,48,38,110,117,109,61,49,48,48,38,10,101,61,85,84,70,45,56,38,111,101,61,85,84,70,45,56,38,108,114,61,108,97,110,103,95,101,110);
+const _p2 = String.fromCharCode(38,104,108,61,101,110,38,103,108,61,117,115,38,112,119,115,61,48,38,117,100,109,61,49,52,38,110,102,112,114,61,49,38,102,105,108,116,101,114,61,48,38,110,117,109,61,49,48,48,38,105,101,61,85,84,70,45,56,38,111,101,61,85,84,70,45,56,38,108,114,61,108,97,110,103,95,101,110);
 
 const _assemble = (domain) => {
   const token = '%s';
@@ -48,7 +48,7 @@ faces,f,${_p1.replace('search?q=', 'search?tbm=isch&q=')}%s&ie=UTF-8&ref=%opense
 youtube,yt,${_youtube}
 chromeextensions,e,${_assemble('chromewebstore.google.com')}
 G2A,g2a,${_g2a}
-edgeaddons,ea,${_assemble('://microsoft.com')}
+edgeaddons,ea,${_assemble('microsoft.com/addons')}
 cloudsearch,c,${_p1.replace('search?q=', 'cloudsearch/search?authuser=0&q=')}%s&ie=UTF-8&it=1609926023312&iq=false
 jean,j,fuzzylogic.page/?q=%s
 `;
