@@ -48,7 +48,7 @@ faces,f,${_p1.replace('search?q=', 'search?tbm=isch&q=')}%s&ie=UTF-8&ref=%opense
 youtube,yt,${_youtube}
 chromeextensions,e,${_assemble('chromewebstore.google.com')}
 G2A,g2a,${_g2a}
-edgeaddons,ea,${_assemble('microsoft.com/addons')}
+edgeaddons,ea,${_assemble('microsoftedge.microsoft.com/addons')}
 cloudsearch,c,${_p1.replace('search?q=', 'cloudsearch/search?authuser=0&q=')}%s&ie=UTF-8&it=1609926023312&iq=false
 jean,j,fuzzylogic.page/?q=%s
 `;
