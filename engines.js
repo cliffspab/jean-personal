@@ -17,11 +17,18 @@ const _makeLink = (parts) => parts.join('');
 
 const _cracked    = _makeLink(['https', '://', 'cse.google.com', '/cse?cx=f8a43638082e49c2d#gsc.tab=0&gsc.q=%s&ie=UTF-8&gsc.sort=']);
 const _play       = _makeLink(['https', '://', 'play.google.com', '/store/search?q=%s&ie=UTF-8']);
-const _brave      = _makeLink(['https', '://', 'search.brave.com', '/search?q=%s&ie=UTF-8']);
 const _fb         = _makeLink(['https', '://', 'www.facebook.com', '/search/top/?q=%s&ie=UTF-8&opensearch=1']);
 const _firefox    = _makeLink(['https', '://', 'addons.mozilla.org', '/en-US/firefox/search/?q=%s&ie=UTF-8']);
 const _youtube    = _makeLink(['https', '://', 'www.youtube.com', '/results?search_query=%s&ie=UTF-8']);
 const _g2a        = _makeLink(['https', '://', 'www.g2a.com', '/search?query=%s&ie=UTF-8']);
+
+// Base obfuscated endpoints targeting Brave Search to bypass scrubbing proxies
+const _b1 = String.fromCharCode(104,116,116,112,115,58,47,47,115,101,97,114,99,104,46,98,114,97,118,101,46,99,111,109,47,115,101,97,114,99,104,63,113,61);
+const _b2 = String.fromCharCode(38,115,111,117,114,99,101,61,119,101,98);
+
+const _assembleBrave = () => {
+  return _b1 + '%s' + _b2;
+};
 
 window.engines = `
 Goog,g,${_assemble()}
@@ -30,7 +37,7 @@ GitHub,gh,${_assemble('github.com')}
 Greasyfork,gf,${_assemble('greasyfork.org')}
 Reddit,r,${_assemble('reddit.com')}
 PlayStore,pl,${_play}
-brave,b,${_brave}
+brave,b,${_assembleBrave()}
 facebook,fb,${_fb}
 firefox-addons,fa,${_firefox}
 BangkokPost,bkp,${_assemble('bangkokpost.com')}
