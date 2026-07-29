@@ -3,7 +3,9 @@
  * LABEL,SHORTCUT,URL (with %s for search term)
  */
 window.engines = `
-Goog,g,https://www.google.com/search?q=%s&hl=en&gl=us&pws=0&udm=14&nfpr=1&filter=0&num=100&ie=UTF-8&oe=UTF-8&lr=lang_en
+Goog,g,https://www.google.com/search?q=%s&lr=lang_en&hl=en&gl=us&pws=0&safe=off&udm=14
+AI,ai,https://www.google.com/search?q=%s&lr=lang_en&hl=en&gl=us&pws=0&safe=off&udm=50
+https://www.google.com/search? q=%s&lr=lang_en&hl=en&gl=us&pws=0&safe=off&udm=50 
 Cracked,zz,https://cse.google.com/cse?cx=f8a43638082e49c2d#gsc.tab=0&gsc.q=%s&ie=UTF-8&gsc.sort=
 GitHub,gh,https://www.google.com/search?q=site:github.com+%s&hl=en&gl=us&pws=0&udm=14&nfpr=1&filter=0&num=100&ie=UTF-8&oe=UTF-8&lr=lang_en
 Greasyfork,gf,https://www.google.com/search?q=site:greasyfork.org+%s&hl=en&gl=us&pws=0&udm=14&nfpr=1&filter=0&num=100&ie=UTF-8&oe=UTF-8&lr=lang_en
