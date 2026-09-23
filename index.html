@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fuzzylogic terminal</title>
     <style>
         :root {
             --bg: #0d0d0d;
@@ -22,7 +23,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start; 
+            padding-top: 25vh;
             min-height: 100vh;
             overflow: hidden;
             box-sizing: border-box;
@@ -43,23 +45,22 @@
         h1 span {
             opacity: 0.4;
         }
-    input {
-    width: 100%;
-    height: 100px;
-    background: transparent;
-    border: none;
-    color: #00ffff;
-    font-size: 4rem;
-    font-family: inherit;
-    text-align: center;
-    outline: none;
-    text-shadow: 0 0 15px #00ffff;
-    margin-top: 20px;
-}
-input:focus {
-    border: none;
-    outline: none;
-}
+        input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            border: none;
+            border: 1px solid var(--text);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 1.5rem;
+            font-family: inherit;
+            padding: 10px 0;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        input:focus {
+            border-bottom: 2px solid var(--text);
         }
         .tools {
             position: fixed;
